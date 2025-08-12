@@ -1,8 +1,6 @@
-# import sys
-# sys.path.append('/home/debug/.local/lib/python3.10/site-packages')
-# import sympy # нет в klipper
+
+
 from . import hall_filament_geometry_sensor_helper
-#from hall_filament_geometry_sensor_helper import HallFilamentWideSensorHelper
 
 
 class EllipseFilamentWideSensorHelper:
@@ -107,7 +105,6 @@ class EllipseFilamentWideSensorHelper:
         return (self.a * self.b) ** 0.5 * 2
 
     def check_for_virtual_f_swich_sensor(self):
-        # self.runout_dia_min <= self.diameter <= self.runout_dia_max
         if self.sensor1.diameter < self.runout_dia_min:
             return False
         if self.sensor1.diameter > self.runout_dia_max:
@@ -120,12 +117,11 @@ class EllipseFilamentWideSensorHelper:
             return False
         if self.sensor3.diameter > self.runout_dia_max:
             return False
-        #self.__call__()
         if self.a * 2 > self.runout_dia_max:
             return False
         if self.b * 2 < self.runout_dia_min:
             return False
-        return True  # если все ок
+        return True  # if it's ok
 
     def __str__(self):
         if (self.sensor1.diameter < self.runout_dia_min or

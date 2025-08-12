@@ -32,11 +32,11 @@ class HallFilamentWideSensorHelper:
 
     def adc_callback(self, read_time, read_value):
         # read sensor value
-        self.lastFilamentWidthReading = round(read_value * 10000)
+        self.lastFilamentWidthReading = (read_value * 10000)
 
     def adc2_callback(self, read_time, read_value):
         # read sensor value
-        self.lastFilamentWidthReading2 = round(read_value * 10000)
+        self.lastFilamentWidthReading2 = (read_value * 10000)
         # calculate diameter
         diameter_new = round((self.dia2 - self.dia1) /
                              (self.rawdia2 - self.rawdia1) *
