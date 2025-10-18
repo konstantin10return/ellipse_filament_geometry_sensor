@@ -43,7 +43,7 @@ class EllipseFilamentWideSensorHelper:
 
     def __call__(self, last_epos=None):
         if last_epos is None:
-            self.d1, self.d2, self.d3 = (self.sensor1.diameter, self.sensor2.diameter, self.sensor3.diameter)
+            self.d1, self.d2, self.d3 = (self.sensor1.smoother.get_value(), self.sensor2.smoother.get_value(), self.sensor3.smoother.get_value())
         else:
             self.d1, self.d2, self.d3 = (self.sensor1.get_value(last_epos), self.sensor2.get_value(last_epos), self.sensor3.get_value(last_epos))
         r1, r3, r2 = sorted([self.d1 / 2, self.d2 / 2, self.d3 / 2], reverse=True)
@@ -105,17 +105,17 @@ class EllipseFilamentWideSensorHelper:
         return (self.a * self.b) ** 0.5 * 2
 
     def check_for_virtual_f_swich_sensor(self):
-        if self.sensor1.diameter < self.runout_dia_min:
+        if self.sensor1.smoother.get_value() < self.runout_dia_min:
             return False
-        if self.sensor1.diameter > self.runout_dia_max:
+        if self.sensor1.smoother.get_value() > self.runout_dia_max:
             return False
-        if self.sensor2.diameter < self.runout_dia_min:
+        if self.sensor2.smoother.get_value() < self.runout_dia_min:
             return False
-        if self.sensor2.diameter > self.runout_dia_max:
+        if self.sensor2.smoother.get_value() > self.runout_dia_max:
             return False
-        if self.sensor3.diameter < self.runout_dia_min:
+        if self.sensor3.smoother.get_value() < self.runout_dia_min:
             return False
-        if self.sensor3.diameter > self.runout_dia_max:
+        if self.sensor3.smoother.get_value() > self.runout_dia_max:
             return False
         if self.a * 2 > self.runout_dia_max:
             return False
@@ -124,12 +124,12 @@ class EllipseFilamentWideSensorHelper:
         return True  # if it's ok
 
     def __str__(self):
-        if (self.sensor1.diameter < self.runout_dia_min or
-                self.sensor2.diameter < self.runout_dia_min or self.sensor3.diameter < self.runout_dia_min):
+        if (self.sensor1.smoother.get_value() < self.runout_dia_min or
+                self.sensor2.smoother.get_value() < self.runout_dia_min or self.sensor3.smoother.get_value() < self.runout_dia_min):
             return ('sensor value is less than the minimum value! ' +
-                    f'{self.sensor1.SENSOR_PREFIX}diameter={self.sensor1.diameter} ' +
-                    f'{self.sensor2.SENSOR_PREFIX}diameter={self.sensor2.diameter} ' +
-                    f'{self.sensor3.SENSOR_PREFIX}diameter={self.sensor3.diameter} ')
+                    f'{self.sensor1.SENSOR_PREFIX}diameter={self.sensor1.smoother.get_value()} ' +
+                    f'{self.sensor2.SENSOR_PREFIX}diameter={self.sensor2.smoother.get_value()} ' +
+                    f'{self.sensor3.SENSOR_PREFIX}diameter={self.sensor3.smoother.get_value()} ')
         virtual_diameter = self.__call__()
         return f'a={self.a}  b={self.b}  virtual_diameter={virtual_diameter}  ' + (f'{self.sensor1.SENSOR_PREFIX}diameter={self.d1} ' +
                                                                                    f'{self.sensor2.SENSOR_PREFIX}diameter={self.d2} ' +
@@ -142,7 +142,7 @@ class EllipseFilamentWideSensorHelper:
 
     def get_status_dict(self):
         rez = dict()
-        rez.update({f'{self.sensor1.SENSOR_PREFIX}diameter': str(self.sensor1.diameter)})
-        rez.update({f'{self.sensor2.SENSOR_PREFIX}diameter': str(self.sensor2.diameter)})
-        rez.update({f'{self.sensor3.SENSOR_PREFIX}diameter': str(self.sensor3.diameter)})
+        rez.update({f'{self.sensor1.SENSOR_PREFIX}diameter': str(self.sensor1.smoother.get_value())})
+        rez.update({f'{self.sensor2.SENSOR_PREFIX}diameter': str(self.sensor2.smoother.get_value())})
+        rez.update({f'{self.sensor3.SENSOR_PREFIX}diameter': str(self.sensor3.smoother.get_value())})
         return rez

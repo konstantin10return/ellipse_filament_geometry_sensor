@@ -74,6 +74,8 @@ class HallFilamentWidthSensor:
                                     self.cmd_log_enable)
         self.gcode.register_command('DISABLE_FILAMENT_WIDTH_LOG',
                                     self.cmd_log_disable)
+        self.gcode.register_command('SAFE_FILAMENT_ARAY',
+                                    self.cmd_SAFE_FILAMENT_ARAY)
 
         self.runout_helper = filament_switch_sensor.RunoutHelper(config)
         self.gcode.respond_info("мой любимый датчик инициализировался !!!")
@@ -165,6 +167,24 @@ class HallFilamentWidthSensor:
         if extrude_factor % 0.01 >= 0.005:
             percentage += 1
         self.gcode.run_script("M221 S" + str(percentage))
+
+
+    def _get_aray(self):
+        return self.filament_array.copy()
+
+    def _setup_aray(self, aray, on_save_pos, epos):
+        offset = on_save_pos - epos
+        self.filament_array = list()
+        for i in aray:
+            self.filament_array.append([i[0] - offset, i[1]])
+
+    def cmd_SAFE_FILAMENT_ARAY(self, gcmd):
+        data = {"epos": self.get_real_epos(),
+                "internal_arrays": [self.sensor.sensor1.get_aray(),
+                                    self.sensor.sensor2.get_aray(),
+                                    self.sensor.sensor3.get_aray()],
+                "array": self._get_aray()}
+        gcmd.respond_info(str(data))
 
     def cmd_M407(self, gcmd):
         gcmd.respond_info(str(self.sensor))
