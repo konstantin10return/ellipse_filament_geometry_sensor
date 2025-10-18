@@ -32,6 +32,9 @@ s3_adc2_pin:
 # s3_Raw_dia1: 9500
 # s3_Raw_dia2: 10500
 
+# smoother_type: classic
+# тип сглаживания поддерживается "classic" и "arithmetic"
+
 
 # use_internal_delay: False
 # Нужно ли использовать внутренние FIFO массивы для учета расстояния между модулями
