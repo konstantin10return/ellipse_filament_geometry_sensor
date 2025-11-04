@@ -6,10 +6,14 @@ measurement_delay:
 # measurement_interval: 5
 # use_current_dia_while_delay: False
 # default_nominal_filament_diameter:
-# max_difference: 5
+# Номинальный диаметр филамента (при котором поток 100%)
+# max_difference: 5 
 # min_diameter:
 # max_diameter:
+# enable: False
+# Включать ли датчик после загрузки прошивки
 # logging: False
+# Логирование показаний датчика
 
 s1_adc1_pin:
 s1_adc2_pin:
@@ -33,8 +37,12 @@ s3_adc2_pin:
 # s3_Raw_dia2: 10500
 
 # smoother_type: classic
-# тип сглаживания поддерживается "classic" и "arithmetic"
-
+# Тип сглаживания поддерживается "classic" и "arithmetic"
+# smooth: 5
+# Степень сглаживания. Можно определить, если используется smoother_type classic.
+# Значение должно быть не меньше 0
+# smooth_aray_len: 5
+# Количество измерений для усреднения. Можно определить, если используется smoother_type arithmetic. 
 
 # use_internal_delay: False
 # Нужно ли использовать внутренние FIFO массивы для учета расстояния между модулями
@@ -47,7 +55,7 @@ s3_adc2_pin:
 # тем выше нагрузка на хост.
 
 # check_e_pos_timeout: 1
-# Период проверки окончания филамента положения экструдера
+# Период проверки окончания филамента и положения экструдера
 # binding_of_measurement: extruder_stepper
 # Откуда брать координату для привязки значения измерения
 # 'extruder_stepper' или 'toolhead'
